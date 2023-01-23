@@ -41,7 +41,7 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
-          name: Build front-end
+          name: Build frontend
           command: |
             cd frontend
             npm install
@@ -58,7 +58,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Back-end build 
+          name: Backend build 
           command: |
               cd backend
               npm install
@@ -73,7 +73,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [Test frontend]
+          keys: [test-frontend]
       - run:
           name: Test frontend
           command: |
@@ -82,7 +82,7 @@ jobs:
             npm run test
       - save_cache:
           paths: [frontend/node_modules]
-          key: Test frontend
+          key: test-frontend
                 
   test-backend:
     docker:
@@ -93,17 +93,17 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [Test backendend]
+          keys: [test-backend]
       # Your job code here
       - run:
-          name: Test backend
+          name: test backend
           command: |
             cd backend
             npm install
             npm run test
       - save_cache:
           paths: [backend/node_modules]
-          key: Test backend
+          key: test-backend
             
   scan-frontend:
     docker:
@@ -113,7 +113,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [scan frontend]
+          keys: [scan-frontend]
       # Your job code here
       - run:
           name: scan frontend
@@ -124,7 +124,7 @@ jobs:
             npm audit --audit-level=critical
       - save_cache:
           paths: [frontend/node_modules]
-          key: scan frontend
+          key: scan-frontend
 
   scan-backend:
     docker:
@@ -134,7 +134,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [scan backendend]
+          keys: [scan-backend]
       # Your job code here
       - run:
           name: scan backend
@@ -145,7 +145,7 @@ jobs:
             npm audit --audit-level=critical
       - save_cache:
           paths: [backend/node_modules]
-          key: scan backend
+          key: scan-backend
 
 #   deploy-infrastructure:
 #     docker:
