@@ -9,9 +9,9 @@ commands:
             name: Install Ansible
             command: |
               apt update
-              apt install software-properties-common
+              apt install software-properties-common -y
               add-apt-repository -yes --update ppa:ansible/ansible
-              apt install ansible
+              apt install ansible -y
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
