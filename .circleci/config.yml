@@ -13,6 +13,18 @@ commands:
               sudo apt-add-repository -yes --update ppa:ansible/ansible
               sudo apt install ansible -y 
 
+  
+  
+  install_awscli: 
+    description: "code to install aws cli"
+    steps:
+      - run: |
+            name: Install AWS CLI 
+            command: |
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -243,6 +255,7 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
+      - install_awscli
       - destroy-environment      
 
   run-migrations:
@@ -267,6 +280,7 @@ jobs:
                   curl https://kvdb.io/XZhzMy7UxbAd5xFwyDUAcB/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
      # Here's where you will add some code to rollback on failure
+      - install_awscli
       - destroy-environment 
       - revert-migrations
 
