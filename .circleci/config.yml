@@ -58,7 +58,7 @@ commands:
     steps:
       - run:
           name: Revert migrations
-          # Add when this will run
+          when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl --insecure "https://kvdb.io/XZhzMy7UxbAd5xFwyDUAcB/migration_<<parameters.workflow_id>>")
@@ -436,6 +436,7 @@ jobs:
             list-exports --query "Exports[?Name==\'WorkflowID\'].Value" \
             --no-paginate --output text)
             echo "Old Workflow ID: $OLD_WORKFLOW_ID" 
+            curl https://kvdb.io/$(kvd ucket)/old_workflow_id -d "$(OLD_WORKFLOW_ID"
       - run:
           name: Install dependencies
           command: | 
