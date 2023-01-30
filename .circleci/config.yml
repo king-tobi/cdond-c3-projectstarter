@@ -10,7 +10,7 @@ commands:
             command: |
               sudo apt update
               sudo apt install software-properties-common -y
-              sudo add-apt-repository -yes --update ppa:ansible/ansible-2.7
+              #sudo add-apt-repository -yes --update ppa:ansible/ansible-2.7
               sudo apt install ansible -y 
 
   destroy-environment:
