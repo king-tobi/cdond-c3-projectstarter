@@ -386,13 +386,15 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND_IP=$(aws ec2 describe-instances \
+            BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filter Name=tag:Name,Values=backend-$(CIRCLE_WORKFLOW_ID:0:7) \
+            --filter "Name=tag:Name,Values=backend-$(CIRCLE_WORKFLOW_ID:0:7)" \
             --output text
             )
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "API_URL = ${API_URL}"
+            export API_URL=http://${BACKEND_IP}:3030
+            echo ${BACKEND_IP}
+            echo backend-${CIRCLE_WORKFLOW_ID:0:7}
+             echo ${API_URL}
             if curl -s $API_URL/api/status | grep "ok"
             then
               exit 0
@@ -437,15 +439,17 @@ jobs:
             --no-paginate --output text)
             echo "Old Workflow ID: $OLD_WORKFLOW_ID" 
             curl https://kvdb.io/$(kvd ucket)/old_workflow_id -d "$(OLD_WORKFLOW_ID"
-      - run:
-          name: Install dependencies
-          command: | 
-            # your code here
+      
       - run:
           name: Update cloudfront distribution
           command: |
-            # your code here
-      # Here's where you will add some code to rollback on failure  
+            aws cloudformation deploy \
+            --template-file .circleci/files/cloudfront.yml\
+            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+            --stack-name InitialStack
+
+      - destroy-environment
+      - revert-migrations
 
 # cleanup:
 #     docker:
