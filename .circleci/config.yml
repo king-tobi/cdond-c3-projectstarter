@@ -27,7 +27,6 @@ commands:
     steps:
       - run:
           name: Install AWS CLI 
-          when: on_fail
           command: |
               curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
               unzip awscliv2.zip
@@ -295,7 +294,7 @@ jobs:
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
       - checkout
       - add_ssh_keys:
@@ -305,13 +304,12 @@ jobs:
             name: Install dependencies
             command: |
               yum install -y tar gzip
-              
+
       - attach_workspace:
          at: ~/
-      
-
+         
+      - install_awscli
       - install_ansible
-      #- install_awscli
       - install_nodejs
 
       - run:
