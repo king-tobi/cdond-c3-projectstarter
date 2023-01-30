@@ -303,10 +303,11 @@ jobs:
    
       - attach_workspace:
          at: ~/
-         
+
+      - install_nodejs  
       - install_awscli
       - install_ansible
-      - install_nodejs
+     
 
       - run:
           name: Get backend url
