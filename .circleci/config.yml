@@ -386,15 +386,18 @@ jobs:
       - run:
           name: Get backend url
           command: |
+            #Getting the backend url (i.e backend ip)
             BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filter "Name=tag:Name,Values=backend-$(CIRCLE_WORKFLOW_ID:0:7)" \
-            --output text
-            )
+            --output text)
+            
+            #The backend smoke test 
+
             export API_URL=http://${BACKEND_IP}:3030
             echo ${BACKEND_IP}
             echo backend-${CIRCLE_WORKFLOW_ID:0:7}
-             echo ${API_URL}
+            echo ${API_URL}
             if curl -s $API_URL/api/status | grep "ok"
             then
               exit 0
