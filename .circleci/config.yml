@@ -447,7 +447,7 @@ jobs:
             echo "Old Workflow ID: $OLD_WORKFLOW_ID" 
             curl https://kvdb.io/$(kvd ucket)/old_workflow_id -d "$(OLD_WORKFLOW_ID"
       
-      - run:
+      - run: 
           name: Update cloudfront distribution
           command: |
             aws cloudformation deploy \
