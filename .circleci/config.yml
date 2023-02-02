@@ -254,6 +254,7 @@ jobs:
          at: ~/
       
       - install_ansible
+      - install_awscli
 
       - run:
           name: Configure server
@@ -262,8 +263,8 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
-      - install_awscli
-      - destroy-environment      
+      
+      - destroy-environment     
 
   run-migrations:
     docker:
