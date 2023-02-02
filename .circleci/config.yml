@@ -224,7 +224,7 @@ jobs:
             cat inventory.txt
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --output text --filter Name=tag:Name,Values=backend-$(CIRCLE_WORKFLOW_ID:0:7)>> inventory.txt
+            --output text --filter Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}>> inventory.txt
             cat inventory.txt
             # export BACKEND_IP-$(aws ec2 describe-instances \
             # --query 'Reservations [*]. Instances [*].PublicIpAddRess' \
@@ -344,6 +344,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "7a:20:e4:88:52:95:18:f9:46:61:9a:a6:08:37:f2:cf"
+
       - attach_workspace:
          at: ~/
 
