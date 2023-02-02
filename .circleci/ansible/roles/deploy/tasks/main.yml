@@ -1,4 +1,5 @@
 --- 
+
 - name: "creates Backend app directory"
   file:
     path: ~/backend-app
@@ -26,3 +27,5 @@
     sudo npm install forever -g 
     sudo npm install ts-node -g 
     forever start -c "ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts" ./ 
+
+  register: execute_node
