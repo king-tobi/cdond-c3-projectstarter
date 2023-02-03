@@ -460,14 +460,14 @@ jobs:
                         --no-paginate --output text)
             echo "Old Wokflow ID: $OLD_WORKFLOW_ID"
             curl https://kvdb.io/XZhzMy7UxbAd5xFwyDUAcB/old_workflow_id -d "${OLD_WORKFLOW_ID}"
-            
+
       - run:
           name: Update cloudfront distribution
           command: |
             aws cloudformation deploy \
               --template-file cloudfront.yml \
               --stack-name udapeople-cloudfront \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
 
             # aws cloudformation deploy \
             # --template-file .circleci/files/cloudfront.yml \
