@@ -151,7 +151,7 @@ jobs:
       # Restore from cache
       - restore_cache:
           keys: [scan-frontend]
-      # Your job code here
+      # Your job code heree
       - run:
           name: scan frontend
           command: |
